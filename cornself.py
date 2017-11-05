@@ -6,7 +6,7 @@ from datetime import datetime
 import time,random,sys,json,codecs,threading,glob,re
 
 cl = LINETCR.LINE()
-cl.login(token="Emf0txCtPx0yCocEQ5Vc.cAsIkpSVKZ2SP98uiFn3da.Fgh06K083S4HPpWRz9gJrO8/9/2vMMCsKdQP79eX28o=")
+cl.loginQr(qr=True)
 #cl.login(token="")
 cl.loginResult()
 
@@ -18,7 +18,7 @@ sys.setdefaultencoding('utf-8')
 
 helpmsg ="""
 ================================
-            CORN SELFBOT
+                    CORN SELFBOT
 ================================
 
 ➣Mid @ - Show MID by tag
@@ -106,26 +106,24 @@ def sendMessage(to, text, contentMetadata={}, contentType=0):
         messageReq[to] = -1
     messageReq[to] += 1
 
-#---------------------------[AutoLike-nya]---------------------------#
-#Tolong Kerjasama-nya untuk tidak merubah komen secara keseluruhan terutama pada URL Channel Youtube Saya, kalau mau ditambah dikit silahkan
-def autolike():#Tolong Kerjasama-nya untuk tidak merubah komen secara keseluruhan terutama pada URL Channel Youtube Saya, kalau mau ditambah dikit silahkan
-     for zx in range(0,100):#Tolong Kerjasama-nya untuk tidak merubah komen secara keseluruhan terutama pada URL Channel Youtube Saya, kalau mau ditambah dikit silahkan
-        hasil = cl.activity(limit=100)#Tolong Kerjasama-nya untuk tidak merubah komen secara keseluruhan terutama pada URL Channel Youtube Saya, kalau mau ditambah dikit silahkan
+
+def autolike():
+     for zx in range(0,100):
+        hasil = cl.activity(limit=100)
         if hasil['result']['posts'][zx]['postInfo']['liked'] == False:#Tolong Kerjasama-nya untuk tidak merubah komen secara keseluruhan terutama pada URL Channel Youtube Saya, kalau mau ditambah dikit silahkan
-          try:    #Tolong Kerjasama-nya untuk tidak merubah komen secara keseluruhan terutama pada URL Channel Youtube Saya, kalau mau ditambah dikit silahkan
-            cl.like(hasil['result']['posts'][zx]['userInfo']['mid'],hasil['result']['posts'][zx]['postInfo']['postId'],likeType=1002)#Tolong Kerjasama-nya untuk tidak merubah komen secara keseluruhan terutama pada URL Channel Youtube Saya, kalau mau ditambah dikit silahkan
-            cl.comment(hasil['result']['posts'][zx]['userInfo']['mid'],hasil['result']['posts'][zx]['postInfo']['postId'],"Autolike By Corn. \n\n http://line.me/ti/p/~raghdahassa.p.c")#Tolong Kerjasama-nya untuk tidak merubah komen secara keseluruhan terutama pada URL Channel Youtube Saya, kalau mau ditambah dikit silahkan
-            print "Like"#Tolong Kerjasama-nya untuk tidak merubah komen secara keseluruhan terutama pada URL Channel Youtube Saya, kalau mau ditambah dikit silahkan
-          except:#Tolong Kerjasama-nya untuk tidak merubah komen secara keseluruhan terutama pada URL Channel Youtube Saya, kalau mau ditambah dikit silahkan
-            pass#Tolong Kerjasama-nya untuk tidak merubah komen secara keseluruhan terutama pada URL Channel Youtube Saya, kalau mau ditambah dikit silahkan
-        else:#Tolong Kerjasama-nya untuk tidak merubah komen secara keseluruhan terutama pada URL Channel Youtube Saya, kalau mau ditambah dikit silahkan
-            print "Already Liked"#Tolong Kerjasama-nya untuk tidak merubah komen secara keseluruhan terutama pada URL Channel Youtube Saya, kalau mau ditambah dikit silahkan
-     time.sleep(500)#Tolong Kerjasama-nya untuk tidak merubah komen secara keseluruhan terutama pada URL Channel Youtube Saya, kalau mau ditambah dikit silahkan
-thread2 = threading.Thread(target=autolike)#Tolong Kerjasama-nya untuk tidak merubah komen secara keseluruhan terutama pada URL Channel Youtube Saya, kalau mau ditambah dikit silahkan
-thread2.daemon = True#Tolong Kerjasama-nya untuk tidak merubah komen secara keseluruhan terutama pada URL Channel Youtube Saya, kalau mau ditambah dikit silahkan
-thread2.start()#Tolong Kerjasama-nya untuk tidak merubah komen secara keseluruhan terutama pada URL Channel Youtube Saya, kalau mau ditambah dikit silahkan
-#Tolong Kerjasama-nya untuk tidak merubah komen secara keseluruhan terutama pada URL Channel Youtube Saya, kalau mau ditambah dikit silahkan
-#---------------------------[AutoLike-nya]---------------------------#
+          try:
+            cl.like(hasil['result']['posts'][zx]['userInfo']['mid'],hasil['result']['posts'][zx]['postInfo']['postId'],likeType=1002)
+            cl.comment(hasil['result']['posts'][zx]['userInfo']['mid'],hasil['result']['posts'][zx]['postInfo']['postId'],"Autolike By Corn. \n\n http://line.me/ti/p/~raghdahassa.p.c")
+            print "Like"
+          except:
+            pass
+        else:
+            print "Already Liked"
+     time.sleep(500)
+thread2 = threading.Thread(target=autolike)
+thread2.daemon = True
+thread2.start()
+
 
 def NOTIFIED_READ_MESSAGE(op):
     try:
@@ -139,9 +137,8 @@ def NOTIFIED_READ_MESSAGE(op):
         else:
             pass
     except:
-        pass
+      pass
 
-#-------------------------[Jangan Dihapus]------------------------#
 
 def bot(op):
     try:
@@ -199,7 +196,7 @@ def bot(op):
                         cl.updateGroup(X)
                         Ti = cl.reissueGroupTicket(op.param1)
 
-#----------------------[Masukin Semua SC Yang Ente Pengen Disini]----------------------#
+
         if op.type == 25:
             msg = op.message
             if msg.text in ["Speed","speed","sp"]:
@@ -230,6 +227,10 @@ def bot(op):
                         except:
                             pass
                 print "[Command]dp executed"
+            elif "rejectall" in msg.text:
+                    X = cl.getGroupIdsInvited()
+                    for i in X:           	    
+			cl.rejectGroupInvitation(i)
             elif "Steal home @" in msg.text:
                 print "[Command]dp executing"
                 _name = msg.text.replace("Steal home @","")    
@@ -492,7 +493,7 @@ def bot(op):
                 					stat = "Off"
                 				lst += "\n->" + cl.getContact(mi_d).displayName + " | " + stat
                                 cl.sendText(msg.to,lst + "\nTotal:" + total)
-#----------------------[Masukin Semua SC Yang Ente Pengen Disini]----------------------#
+
 
         if op.type == 59:
             print op
@@ -521,4 +522,4 @@ while True:
             cl.Poll.rev = max(cl.Poll.rev, Op.revision)
             bot(Op)
             
-#-------------------------[Jangan Dihapus]------------------------#            
+
